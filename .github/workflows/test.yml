@@ -21,4 +21,7 @@ jobs:
       run: go mod download
 
     - name: Test
-      run: go test -v ./...
+      run: |
+        if [ -f ./go.mod ]; then
+          go test -v ./...
+        fi
