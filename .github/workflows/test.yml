@@ -18,7 +18,9 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Check module existing
-      run: echo "::set-output name=EXIST_MODULE::${test -f go.mod}"
+      run: |
+        EXIST_MODULE=$(test -f go.mod) |
+        echo "::set-output name=EXIST_MODULE::${EXIST_MODULE}"
       id: check
 
     - name: Get Dependencies
