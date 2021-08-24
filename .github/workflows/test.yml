@@ -17,11 +17,18 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
+    - name: Check module existing
+      run: echo "::set-output name=EXIST_MODULE::$(test -f go.mod)"
+      id: check
+
     - name: Get Dependencies
-      run: go mod download
+      run: |
+        if "${{ steps.check.outputs.EXIST_MODULE }}"; then |
+          go mod download|
+        fi
 
     - name: Test
       run: |
-        if [ -f ./go.mod ]; then
-          go test -v ./...
+        if "${{ steps.check.outputs.EXIST_MODULE }}"; then |
+          go test -v ./... |
         fi
